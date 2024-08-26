@@ -1,0 +1,25 @@
+spring:
+    application:
+        name: SpringBoot_MicroService
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: Sureshjuvva@876
+        url: jdbc:mysql://localhost:3306/user_management
+        username: root
+        initialize: false
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+        info:
+            enabled: true
+info:
+    application:
+        name: SpringBoot_MicroService
+        description: springboot microsercice demo
+        version: 1.0.0
