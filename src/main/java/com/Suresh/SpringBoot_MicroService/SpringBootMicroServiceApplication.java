@@ -1,10 +1,12 @@
 package com.Suresh.SpringBoot_MicroService;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,5 +30,16 @@ public class SpringBootMicroServiceApplication {
 	{
 		return new BCryptPasswordEncoder();
 	}
+
+	@Bean
+	public NewTopic createFirstTopic() {
+		return TopicBuilder.name("First-topic").build();
+	}
+
+	@Bean
+	public NewTopic createSecondTopic() {
+		return TopicBuilder.name("Second-topic").build();
+	}
+
 
 }
