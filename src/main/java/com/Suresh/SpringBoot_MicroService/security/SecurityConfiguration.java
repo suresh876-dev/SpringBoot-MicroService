@@ -3,6 +3,7 @@ package com.Suresh.SpringBoot_MicroService.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -15,9 +16,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfiguration {
+
+    @Autowired
+    JwtAuthFilter jwtAuthFilter;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -41,10 +46,13 @@ public class SecurityConfiguration {
     public SecurityFilterChain authorize(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(csrf->csrf.disable())//disable means allow third party requests
                 .authorizeHttpRequests(auth->{
-                    auth.requestMatchers("/user/getAllUsers").hasAnyRole("ADMIN");
-                    auth.requestMatchers("/userapp/authenticate").permitAll()//without allow the request
+                    auth.requestMatchers(HttpMethod.POST).hasAnyRole("MANAGER","ADMIN").
+                     requestMatchers(HttpMethod.POST,"/user/createUser").hasAnyRole("ADMIN")
+                    .requestMatchers("/user/**").hasAnyRole("USER","MANAGER","ADMIN")
+                     .requestMatchers("/userapp/authenticate").permitAll()//without allow the request
                             .anyRequest().authenticated();
-                }).formLogin(Customizer.withDefaults());
+                }).formLogin(Customizer.withDefaults())
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 

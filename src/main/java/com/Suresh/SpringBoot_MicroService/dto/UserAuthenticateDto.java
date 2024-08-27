@@ -24,4 +24,7 @@ public class UserAuthenticateDto {
 
     @Column(nullable = false)
     private String roles;
+
+    @Column(nullable = false)
+    private String token;
 }

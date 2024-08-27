@@ -1,6 +1,7 @@
 package com.Suresh.SpringBoot_MicroService.controller;
 
 import com.Suresh.SpringBoot_MicroService.dto.UserAuthenticateDto;
+import com.Suresh.SpringBoot_MicroService.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,9 @@ public class UserAuthenticateController {
     @Autowired
     AuthenticationManager authenticationManager;
 
+    @Autowired
+    JwtUtils jwtUtils;
+
 
     @PostMapping(value = "/authenticate",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> authenticate(@RequestBody UserAuthenticateDto userAuthenticateDto)
@@ -26,6 +30,9 @@ public class UserAuthenticateController {
         {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userAuthenticateDto.getUsername(),userAuthenticateDto.getPassword()));
+            String jwtToken = jwtUtils.generateToken(userAuthenticateDto.getUsername());
+
+            userAuthenticateDto.setToken(jwtToken);
             return new ResponseEntity<Boolean>(true, HttpStatus.OK);
         }
         catch (AuthenticationException e)
