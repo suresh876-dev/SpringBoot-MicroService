@@ -1,45 +1,47 @@
 spring:
-    application:
-        name: SpringBoot_MicroService
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        password: Sureshjuvva@876
-        url: jdbc:mysql://localhost:3306/user_management
-        username: root
+  application:
+    name: SpringBoot_MicroService
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: Sureshjuvva@876
+    url: jdbc:mysql://localhost:3306/user_management
+    username: root
 
-    jpa:
-        hibernate:
-            ddl-auto: update
-        show-sql: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
 management:
-    endpoints:
-        web:
-            exposure:
-                include: "*"
-        info:
-            enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    info:
+      enabled: true
+
 info:
-    application:
-        name: SpringBoot_MicroService
-        description: springboot microsercice demo
-        version: 1.0.0
+  application:
+    name: SpringBoot_MicroService
+    description: springboot microsercice demo
+    version: 1.0.0
 
-    cloud:
-      function:
-        definition: customProducer;customProcessor;customConsumer
-       stream:
-         bindings:
-             customProducer-out-0:
-               destination: first-topic
-             customProcessor-in-0:
-               destination: first-topic
-             customProcessor-out-0:
-               destination: second-topic
-             customConsumer-in=0:
-               destination: second-topic
+  cloud:
+    function:
+      definition: customProducer;customProcessor;customConsumer
+    stream:
+      bindings:
+        customProducer-out-0:
+          destination: first-topic
+        customProcessor-in-0:
+          destination: first-topic
+        customProcessor-out-0:
+          destination: second-topic
+        customConsumer-in-0:
+          destination: second-topic
 
-
-         kafka:
-           binder:
-             brokers:
-                 - localhost:9092, localhost:9093
+    kafka:
+      binder:
+        brokers:
+          - localhost:9092
+          - localhost:9093

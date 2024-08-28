@@ -24,7 +24,7 @@ public class UserAuthenticateController {
 
 
     @PostMapping(value = "/authenticate",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> authenticate(@RequestBody UserAuthenticateDto userAuthenticateDto)
+    public ResponseEntity<UserAuthenticateDto> authenticate(@RequestBody UserAuthenticateDto userAuthenticateDto)
     {
         try
         {
@@ -33,11 +33,11 @@ public class UserAuthenticateController {
             String jwtToken = jwtUtils.generateToken(userAuthenticateDto.getUsername());
 
             userAuthenticateDto.setToken(jwtToken);
-            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+            return new ResponseEntity<UserAuthenticateDto>(userAuthenticateDto, HttpStatus.OK);
         }
         catch (AuthenticationException e)
         {
-            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<UserAuthenticateDto>(userAuthenticateDto, HttpStatus.BAD_REQUEST);
         }
 
     }

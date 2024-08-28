@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // write the code to load user from UserEntity table using Repository API
 
-       List<UserEntity> userEntities = userEntityRepository.findbyUserName(username);
+       List<UserEntity> userEntities = userEntityRepository.findByUserName(username);
        if(userEntities==null||userEntities.size()==0)
        {
            throw new UsernameNotFoundException(username);

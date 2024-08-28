@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -46,8 +45,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain authorize(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(csrf->csrf.disable())//disable means allow third party requests
                 .authorizeHttpRequests(auth->{
-                    auth.requestMatchers(HttpMethod.POST).hasAnyRole("MANAGER","ADMIN").
-                     requestMatchers(HttpMethod.POST,"/user/createUser").hasAnyRole("ADMIN")
+                  //  auth.requestMatchers(HttpMethod.POST).hasAnyRole("MANAGER","ADMIN").
+                     auth.requestMatchers(HttpMethod.POST,"/user/createUser").hasAnyRole("ADMIN")
                     .requestMatchers("/user/**").hasAnyRole("USER","MANAGER","ADMIN")
                      .requestMatchers("/userapp/authenticate").permitAll()//without allow the request
                             .anyRequest().authenticated();
