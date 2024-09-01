@@ -19,11 +19,28 @@ management:
         include: "*"
     info:
       enabled: true
+    health:
+      circuitbreakers:
+        enabled : true
+    endpoint:
+      health:
+        show-details: always
+
+resilence4j:
+  circuitbreaker:
+    instances:
+      TOKEN-VALIDATION-SERVICE:
+        register-health-indicaor: true
+        automatic-transition-from-open-to-half-open-enabled: true
+        failure-rate-threshold: 10
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state : 3
+        wait-duration-in-open-state: 5s
 
 info:
   application:
     name: SpringBoot_MicroService
-    description: springboot microsercice demo
+    description: springboot microservice demo
     version: 1.0.0
 
   cloud:
@@ -40,8 +57,9 @@ info:
         customConsumer-in-0:
           destination: second-topic
 
-    kafka:
-      binder:
-        brokers:
-          - localhost:9092
-          - localhost:9093
+kafka:
+  binder:
+    brokers:
+      - localhost:9092
+      - localhost:9093
+

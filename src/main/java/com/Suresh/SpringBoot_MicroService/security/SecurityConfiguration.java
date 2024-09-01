@@ -46,10 +46,12 @@ public class SecurityConfiguration {
         httpSecurity.csrf(csrf->csrf.disable())//disable means allow third party requests
                 .authorizeHttpRequests(auth->{
                   //  auth.requestMatchers(HttpMethod.POST).hasAnyRole("MANAGER","ADMIN").
-                     auth.requestMatchers(HttpMethod.POST,"/user/createUser").hasAnyRole("ADMIN")
-                    .requestMatchers("/user/**").hasAnyRole("USER","MANAGER","ADMIN")
-                     .requestMatchers("/userapp/authenticate").permitAll()//without allow the request
-                            .anyRequest().authenticated();
+                   //  auth.requestMatchers(HttpMethod.POST,"/user/createUser").hasAnyRole("ADMIN")
+                   // .requestMatchers("/user/**").hasAnyRole("USER","MANAGER","ADMIN")
+                   //  .requestMatchers("/userapp/authenticate").permitAll()//without allow the request
+                    //        .anyRequest().authenticated();
+
+                     auth.anyRequest().permitAll();
                 }).formLogin(Customizer.withDefaults())
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

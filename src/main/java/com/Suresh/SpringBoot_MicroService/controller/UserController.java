@@ -4,18 +4,22 @@ import com.Suresh.SpringBoot_MicroService.dto.UserDto;
 import com.Suresh.SpringBoot_MicroService.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user")
+@CrossOrigin("*")
 public class UserController {
 
     private UserService userService;
+
 
     @PostMapping("/createUser")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto)
@@ -56,4 +60,19 @@ public class UserController {
 
         return new ResponseEntity<>("user delted succsfully",HttpStatus.OK);
     }
+
+   /* @CircuitBreaker(name="TOKEN-VALIDATION-SERVICE",fallbackMethod="fallbackForIsTokenValid")
+    public Boolean isTokenValid(){
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity entity = new HttpEntity(headers);
+        ResponseEntity<Boolean> response =restTemplate.exchange("https://api.restful-api.dev/objects", HttpMethod.GET,entity,Boolean.class);
+        return response.getBody();
+
+    }
+
+    public boolean fallbackForIsTokenValid(Exception ex){
+        System.out.println("called service failed-excepiotn"+ex);
+        System.out.println("called service failed-excepiotn"+ex);
+        return false;
+    }*/
 }

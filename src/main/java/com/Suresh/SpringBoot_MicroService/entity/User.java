@@ -22,4 +22,9 @@ public class User {
     private String lastname;
     @Column(nullable = false,unique = true)
     private String email;
+
+    @OneToOne(cascade = {CascadeType.ALL},
+    fetch = FetchType.LAZY)
+    @JoinColumn(name="employee_id")
+    private Employee employee;
 }

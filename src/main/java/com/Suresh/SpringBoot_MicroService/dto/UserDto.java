@@ -1,5 +1,6 @@
 package com.Suresh.SpringBoot_MicroService.dto;
 
+import com.Suresh.SpringBoot_MicroService.entity.Employee;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -24,4 +25,6 @@ public class UserDto {
     @NotEmpty(message = "User Email should not be null or empty")
     @Email(message = "Email Address should be valid")
     private String email;
+
+    private Employee employee;
 }
