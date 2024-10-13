@@ -15,8 +15,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+// if any request come along with token please call these jwtauthfilter
 @Configuration
-public class JwtAuthFilter extends OncePerRequestFilter {
+public class JwtAuthFilter extends OncePerRequestFilter { // which is called automatically by springboot framwork without client knowing
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -24,7 +25,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
-
+// to check authorization of jwt token
+    // validate the role from jwt token which has admin ,user,manger role or not
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
@@ -42,9 +44,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         null,
                         userDetails.getAuthorities());
                 authtoken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authtoken);
+                SecurityContextHolder.getContext().setAuthentication(authtoken); //it check authroiation of client //securitycontextholder willapply
+                //for your request
             }
         }
         filterChain.doFilter(request,response);
     }
 }
+/*
+
+        Client Logs In: Sends credentials to Spring Boot.
+        JWT Generation: If the credentials are valid, a JWT is generated and sent back to the client.
+        Token Storage: The client stores the JWT.
+        Sending Token with Requests: The client sends the token in the Authorization header for every request.
+        JWT Validation: The Spring Boot application validates the JWT in a filter.
+        Authentication & Authorization: Based on the JWT claims, Spring Security handles authorization for the request.
+        Response: The server responds with the requested data if authentication and authorization succeed.    */

@@ -25,6 +25,7 @@ public class UserController {
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto)
     {
        UserDto savedUser = userService.createUser(userDto);
+       //check role of jwt token for every user
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 

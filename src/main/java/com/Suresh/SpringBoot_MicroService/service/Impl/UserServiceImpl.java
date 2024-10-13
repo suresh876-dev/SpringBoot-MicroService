@@ -7,6 +7,7 @@ import com.Suresh.SpringBoot_MicroService.exception.EmailAlreadyExistsException;
 import com.Suresh.SpringBoot_MicroService.exception.ResourceNotFoundException;
 import com.Suresh.SpringBoot_MicroService.repository.UserRepository;
 import com.Suresh.SpringBoot_MicroService.service.UserService;
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+
+    @Autowired
+    EntityManager entityManager; // Heart of JPA , centrailised object heart of jpa java persistence api
+
+
 
     private ModelMapper modelMapper;
 

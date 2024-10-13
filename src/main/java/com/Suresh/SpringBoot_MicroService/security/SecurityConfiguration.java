@@ -20,8 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfiguration {
 
-    @Autowired
-    JwtAuthFilter jwtAuthFilter;
+     @Autowired
+      JwtAuthFilter jwtAuthFilter;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -36,12 +36,12 @@ public class SecurityConfiguration {
         authProvider.setUserDetailsService(userDetailsService);
         return authProvider;
     }
-
     @Bean
     public AuthenticationManager getAuthenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-    @Bean
+    //Authorization using springboot security but real microservice we can't use these authrization with login page
+    /*@Bean
     public SecurityFilterChain authorize(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(csrf->csrf.disable())//disable means allow third party requests
                 .authorizeHttpRequests(auth->{
@@ -52,9 +52,10 @@ public class SecurityConfiguration {
                     //        .anyRequest().authenticated();
 
                      auth.anyRequest().permitAll();
-                }).formLogin(Customizer.withDefaults())
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                })//.formLogin(Customizer.withDefaults()) //ui login page with deault login page username and password browser based login
+       // .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // im telling to my spring boot framewrok
+       // whenver any requet come please make sure these filter called before these filter checks your json jwt token// here we are calling jwtauthfilter
         return httpSecurity.build();
-    }
+    }*/
 
 }

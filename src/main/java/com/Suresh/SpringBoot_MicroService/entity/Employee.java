@@ -18,8 +18,10 @@ public class Employee {
     @GeneratedValue
     @Column(name="id")
     private Long id;
+
     @Column(nullable = false)
     private String company;
+
     @Column(nullable = false)
     private String experience;
 
